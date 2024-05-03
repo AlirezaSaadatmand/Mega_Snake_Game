@@ -15,6 +15,8 @@ UNIT = 12
 WIDTH -= WIDTH % UNIT
 HEIGHT -= HEIGHT % UNIT
 
+intro = True
+
 snakes = []
 
 foods = []
@@ -36,7 +38,6 @@ moves = {
     3 : [116 , 103 , 104 , 102],
     4 : [111 , 108 , 59 , 107]
 }
-
              
 def create_sanke(screen , count):
     xrange = WIDTH // UNIT
@@ -89,9 +90,19 @@ screen.fill("orange")
 pygame.display.set_caption("Mega Snake")
 clock = pygame.time.Clock()
 
-create_sanke(screen , 3)
+begin_text = pygame.font.Font(None , 40)
+begin_text = begin_text.render("How many snake ? (1 , 4)" , "black" , False)
+begin_text_rect = begin_text.get_rect(center = (WIDTH / 2 , HEIGHT / 2 - 50))
+
+sur = pygame.Surface( (100 , 30) )
+sur.fill("white")
+sur_rect = sur.get_rect(center = (WIDTH / 2 , HEIGHT / 2))
+
+
 
 counter = 0
+
+text = ""
 
 while True:
     for event in pygame.event.get():
@@ -100,42 +111,59 @@ while True:
             exit()
             
         if event.type == pygame.KEYDOWN:
-            for snake in snakes:
-                lst = [snake.goingup , snake.goingdown , snake.goingright , snake.goingleft]
-                f = [snake.up , snake.down , snake.right , snake.left]
-                if event.key in f:
-                    index = f.index(event.key)
+            if not intro:
+                for snake in snakes:
+                    lst = [snake.goingup , snake.goingdown , snake.goingright , snake.goingleft]
+                    f = [snake.up , snake.down , snake.right , snake.left]
+                    if event.key in f:
+                        index = f.index(event.key)
 
-                    if index == 0 and snake.goingdown == False:
-                        all_false(snake)                  
-                        snake.goingup = True
-                    elif index == 1 and snake.goingup == False:
-                        all_false(snake)                  
-                        snake.goingdown = True
-                    elif index == 2 and not snake.goingleft:
-                        all_false(snake)                  
-                        snake.goingright = True
-                    elif index == 3 and not snake.goingright:
-                        all_false(snake)                  
-                        snake.goingleft = True
-            
+                        if index == 0 and snake.goingdown == False:
+                            all_false(snake)                  
+                            snake.goingup = True
+                        elif index == 1 and snake.goingup == False:
+                            all_false(snake)                  
+                            snake.goingdown = True
+                        elif index == 2 and not snake.goingleft:
+                            all_false(snake)                  
+                            snake.goingright = True
+                        elif index == 3 and not snake.goingright:
+                            all_false(snake)                  
+                            snake.goingleft = True
+            else:
+                if event.unicode.isdigit():
+                    text += str(event.unicode)
+                if event.key == pygame.K_BACKSPACE and len(text) > 0:
+                    text = text[:-1]
+                if event.key == pygame.K_SPACE and 1 <= int(text) <= 4:
+                    create_sanke(screen , int(text))
+                    intro = False
+
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 exit()
-    
-    if not gameOver:
+    if intro:
+        screen.blit(begin_text , begin_text_rect)
+        screen.blit(sur , sur_rect)
         
-        if counter % 12 == 0:
-            screen.fill("green")
-            
-            while len(foods) < food_count:
-                create_food(screen)
-            touch()
-            draw()
-            if counter == 12000:
-                gameOver = True
+        number_text = pygame.font.Font(None , 30)
+        number_text = number_text.render(text , "black" , True)
+        number_text_rect = number_text.get_rect(center = (WIDTH / 2 , HEIGHT / 2))
+        screen.blit(number_text , number_text_rect)
     else:
-        ...
-    counter += 1 
+        if not gameOver:
+            
+            if counter % 12 == 0:
+                screen.fill("green")
+                
+                while len(foods) < food_count:
+                    create_food(screen)
+                touch()
+                draw()
+                if counter == 12000:
+                    gameOver = True
+        else:
+            ...
+        counter += 1 
     pygame.display.update()
     clock.tick(120)
