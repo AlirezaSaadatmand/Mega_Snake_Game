@@ -70,6 +70,7 @@ def win():
         elif len(snake.parts) == count:
             s += f" , {snake.color}"
     return s
+
 def draw():
     if not gameOver:
         for food in foods:
@@ -81,7 +82,7 @@ def draw():
         time_text = time_text.render(f"{counter // 120}" , "white" , True)
         screen.blit(time_text , (WIDTH - 50 , 30))
     else:
-        screen.fill("green")
+        screen.fill("#eee4da")
         screen.blit(end_game_surface , end_game_rect)
         pos = 1
         width = WIDTH // 1.5
@@ -115,20 +116,20 @@ def touch():
 
 pygame.init()
 screen = pygame.display.set_mode( (WIDTH , HEIGHT) )
-screen.fill("orange")
+screen.fill("#ede0c8")
 pygame.display.set_caption("Mega Snake")
 clock = pygame.time.Clock()
 
 begin_text = pygame.font.Font(None , 40)
-begin_text = begin_text.render("How many snake ? (1 , 4)" , "black" , False)
+begin_text = begin_text.render("How many snake ? (2 , 4)" , "black" , False)
 begin_text_rect = begin_text.get_rect(center = (WIDTH / 2 , HEIGHT / 2 - 50))
 
 sur = pygame.Surface( (100 , 30) )
-sur.fill("white")
+sur.fill("#f59563")
 sur_rect = sur.get_rect(center = (WIDTH / 2 , HEIGHT / 2))
 
 end_game_surface = pygame.Surface( (WIDTH // 1.5 , HEIGHT // 4) )
-end_game_surface.fill("lightgreen")
+end_game_surface.fill("#c1b3a4")
 end_game_rect = end_game_surface.get_rect(center = (WIDTH // 2 , HEIGHT // 2))
 
 
@@ -167,7 +168,7 @@ while True:
                     text += str(event.unicode)
                 if event.key == pygame.K_BACKSPACE and len(text) > 0:
                     text = text[:-1]
-                if event.key == pygame.K_SPACE and 1 <= int(text) <= 4:
+                if event.key == pygame.K_SPACE and 2 <= int(text) <= 4:
                     create_sanke(screen , int(text))
                     intro = False
 
@@ -186,7 +187,7 @@ while True:
         if not gameOver:
             
             if counter % 12 == 0:
-                screen.fill("orange")
+                screen.fill("#ede0c8")
                 
                 while len(foods) < food_count:
                     create_food(screen)

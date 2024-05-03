@@ -10,7 +10,7 @@ class Food:
         
     def draw(self):
         sur = pygame.Surface( (self.UNIT , self.UNIT) )
-        sur.fill("red")
+        sur.fill("brown")
         sur_rect = sur.get_rect(topleft = (self.x , self.y))
         self.screen.blit(sur , sur_rect)
  

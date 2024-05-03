@@ -45,3 +45,6 @@ player 4 :
           right : ;
           
           left : k
+
+At the end the player with a longest snake is the winner
+
