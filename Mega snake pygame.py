@@ -3,6 +3,9 @@ from sys import exit
 import random
 import pyautogui
 
+from classes.Snake import Snake
+from classes.Food import Food
+
 size = pyautogui.size()
 WIDTH , HEIGHT = size
 WIDTH , HEIGHT = (WIDTH*8//10) , (HEIGHT*8//10)
@@ -34,83 +37,12 @@ moves = {
     4 : [111 , 108 , 59 , 107]
 }
 
-class Snake:
-    def __init__(self , screen , x , y , color , up , down , right , left):
-        self.screen = screen
-        self.color = color
-        self.parts=[[x , y] ,
-                    [x + UNIT , y] ,
-                    [x + (UNIT * 2), y] , 
-                    [x + (UNIT * 3), y]]
-        
-        self.up = up
-        self.down = down
-        self.right = right
-        self.left = left
-        
-        self.goingright = True
-        self.goingup = False
-        self.goingdown = False
-        self.goingleft = False
-        
-        self.touch = False
-        
-    def move(self ):
-        x , y = self.parts[-1]
-        if not self.touch:
-            self.parts.remove(self.parts[0])
-        self.touch = False
-        if self.goingright:
-            if x + UNIT >= WIDTH:
-                x = 0
-            else:
-                x += UNIT
-        elif self.goingleft:
-            if x - UNIT < 0:
-                x = WIDTH
-            else:
-                x -= UNIT
-        elif self.goingup:
-            if y - UNIT < 0:
-                y = HEIGHT
-            else:
-                y -= UNIT
-        elif self.goingdown:
-            if y + UNIT >= HEIGHT:
-                y = 0
-            else:
-                y += UNIT
-        self.parts.append([x , y])
-
-    def draw(self):
-        for part in self.parts:
-            sur = pygame.Surface( (UNIT , UNIT) )
-            if part == self.parts[-1]:
-                sur.fill("black")
-            else:
-                sur.fill(self.color)
-            sur_rect = sur.get_rect(topleft = (part[0] , part[1]))
-
-            self.screen.blit(sur , sur_rect)
-
-            pygame.draw.rect(self.screen ,"black", sur_rect , 1 , 0)
-
-class Food:
-    def __init__(self , screen , x , y):
-        self.screen = screen
-        self.x = x
-        self.y = y
-    def draw(self):
-        sur = pygame.Surface( (UNIT , UNIT) )
-        sur.fill("red")
-        sur_rect = sur.get_rect(topleft = (self.x , self.y))
-        self.screen.blit(sur , sur_rect)
-                
+             
 def create_sanke(screen , count):
     xrange = WIDTH // UNIT
     yrange = HEIGHT // UNIT
     for i in range(1 , count+1):
-        snakes.append(Snake(screen , random.randint(1, xrange-3) * UNIT , random.randint(1 , yrange-3) * UNIT , colors[i] , *moves[i]))
+        snakes.append(Snake(screen , random.randint(1, xrange-3) * UNIT , random.randint(1 , yrange-3) * UNIT , colors[i] , *moves[i] , UNIT , WIDTH , HEIGHT))
 
 def create_food(screen):
     x = random.randint(0 , WIDTH // UNIT) * UNIT
@@ -123,7 +55,7 @@ def create_food(screen):
                 break
         else:
             break
-    foods.append(Food(screen , x , y))
+    foods.append(Food(screen , x , y , UNIT))
 
 def draw():
     for food in foods:
