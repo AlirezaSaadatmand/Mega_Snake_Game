@@ -17,6 +17,8 @@ HEIGHT -= HEIGHT % UNIT
 
 intro = True
 
+GAME_DURATION = 100
+
 snakes = []
 
 foods = []
@@ -58,16 +60,43 @@ def create_food(screen):
             break
     foods.append(Food(screen , x , y , UNIT))
 
-def draw():
-    for food in foods:
-        food.draw()
+def win():
+    s = ""
+    count = 0
     for snake in snakes:
-        snake.move()
-        snake.draw()
-    time_text = pygame.font.Font(None , 40)
-    time_text = time_text.render(f"{counter // 120}" , "white" , True)
-    screen.blit(time_text , (WIDTH - 50 , 30))
-    
+        if len(snake.parts) > count:
+            count = len(snake.parts)
+            s = snake.color
+        elif len(snake.parts) == count:
+            s += f" , {snake.color}"
+    return s
+def draw():
+    if not gameOver:
+        for food in foods:
+            food.draw()
+        for snake in snakes:
+            snake.move()
+            snake.draw()
+        time_text = pygame.font.Font(None , 40)
+        time_text = time_text.render(f"{counter // 120}" , "white" , True)
+        screen.blit(time_text , (WIDTH - 50 , 30))
+    else:
+        screen.fill("green")
+        screen.blit(end_game_surface , end_game_rect)
+        pos = 1
+        width = WIDTH // 1.5
+        unit = width // (int(text) + 1)
+        for snake in snakes:
+            score_text = pygame.font.Font(None , 30)
+            score_text = score_text.render(f"{snake.color} : {len(snake.parts)}" , "white" , True)
+            score_text_rect = score_text.get_rect(center = ((WIDTH-width)/2 + pos*unit  , HEIGHT /2))
+            screen.blit(score_text , score_text_rect)
+            pos += 1
+        win_text = pygame.font.Font(None , 60)
+        win_text = win_text.render(f"player {win()} won!" , "white" , True)
+        win_text_rect = win_text.get_rect(center = (WIDTH / 2 , HEIGHT / 8))
+        screen.blit(win_text , win_text_rect)
+        
 def all_false(snake):
     snake.goingup = False
     snake.goingdown = False
@@ -98,6 +127,9 @@ sur = pygame.Surface( (100 , 30) )
 sur.fill("white")
 sur_rect = sur.get_rect(center = (WIDTH / 2 , HEIGHT / 2))
 
+end_game_surface = pygame.Surface( (WIDTH // 1.5 , HEIGHT // 4) )
+end_game_surface.fill("lightgreen")
+end_game_rect = end_game_surface.get_rect(center = (WIDTH // 2 , HEIGHT // 2))
 
 
 counter = 0
@@ -154,16 +186,16 @@ while True:
         if not gameOver:
             
             if counter % 12 == 0:
-                screen.fill("green")
+                screen.fill("orange")
                 
                 while len(foods) < food_count:
                     create_food(screen)
                 touch()
                 draw()
-                if counter == 12000:
+                if counter == 12:
                     gameOver = True
+            counter += 1 
         else:
-            ...
-        counter += 1 
+            draw()
     pygame.display.update()
     clock.tick(120)
