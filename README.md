@@ -48,3 +48,4 @@ player 4 :
 
 At the end the player with a longest snake is the winner
 
+![Screenshot 2024-05-03 045912](https://github.com/AlirezaSaadatmand/Mega_Snake_Game/assets/157215281/d9af29c0-c54e-48ec-8b4b-52c47fc82330)

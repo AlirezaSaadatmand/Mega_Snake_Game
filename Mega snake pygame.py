@@ -94,7 +94,7 @@ def draw():
             screen.blit(score_text , score_text_rect)
             pos += 1
         win_text = pygame.font.Font(None , 60)
-        win_text = win_text.render(f"player {win()} won!" , "white" , True)
+        win_text = win_text.render(f"{win()} player won!" , "white" , True)
         win_text_rect = win_text.get_rect(center = (WIDTH / 2 , HEIGHT / 8))
         screen.blit(win_text , win_text_rect)
         
