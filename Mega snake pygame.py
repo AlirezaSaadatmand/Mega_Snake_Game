@@ -192,7 +192,7 @@ while True:
                     create_food(screen)
                 touch()
                 draw()
-                if counter == 12:
+                if counter == GAME_DURATION * 120:
                     gameOver = True
             counter += 1 
         else:
