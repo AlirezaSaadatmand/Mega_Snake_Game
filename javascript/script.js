@@ -9,6 +9,9 @@ canvas.height = height;
 
 const UNIT = 15;
 
+let span = document.querySelector("#span");
+let time = 99;
+
 let snakeList = [];
 
 let foodCount = 10;
@@ -17,6 +20,8 @@ let foodList = [];
 
 class Snake {
     constructor(x, y, up, down, left, right, color) {
+
+        this.score = 0;
 
         this.parts = [
             { x: x + UNIT * 3, y: y },
@@ -44,6 +49,8 @@ class Snake {
         let head = this.parts[0];
         if (!state) {
             this.parts.pop();
+        } else {
+            this.score++;
         }
         if (this.goingUp) {
             if (head.y - UNIT < 0) {
@@ -141,7 +148,51 @@ function draw() {
     });
 }
 
+function endGame(x) {
+    clearInterval(x);
+    canvas.style.display = "none";
+    span.style.display = "none";
+    document.querySelector("#scorediv").style.display = "flex";
+
+
+    let colors = {
+        "green": document.querySelector("#green"),
+        "red": document.querySelector("#red"),
+        "blue": document.querySelector("#blue"),
+        "yellow": document.querySelector("#yellow")
+    }
+
+    snakeList.forEach((snake) => {
+        let color = snake.color;
+
+        if (color == "green") {
+            colors.green.innerHTML = color + ` : ${snake.score}`;
+            colors.green.style.color = color;
+        } else if (color == "red") {
+            colors.red.innerHTML = color + ` : ${snake.score}`;
+            colors.red.style.color = color;
+        } else if (color == "blue") {
+            colors.blue.innerHTML = color + ` : ${snake.score}`;
+            colors.blue.style.color = color;
+        } else if (color == "yellow") {
+            colors.yellow.innerHTML = color + ` : ${snake.score}`;
+            colors.yellow.style.color = color;
+        }
+    });
+}
+
+function timeHandle() {
+    let x = setInterval(() => {
+        span.innerHTML = time;
+        if (time == 0) {
+            endGame(x);
+        }
+        time--;
+    }, 1000);
+}
+
 function main() {
+    timeHandle();
     setInterval(() => {
         while (foodList.length <= foodCount) {
             foodList.push(new Food(...random()));

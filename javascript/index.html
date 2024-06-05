@@ -19,12 +19,47 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+        
+        #span {
+            color: white;
+            font-size: 40px;
+            position: absolute;
+            top: 10%;
+            left: 5px;
+        }
+        
+        #scorediv {
+            width: 800px;
+            height: 300px;
+            display: none;
+            background-color: rgb(151, 151, 151);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 5px;
+            text-align: center;
+            justify-content: center;
+        }
+        
+        .score {
+            padding: 5%;
+            margin-top: 16%;
+            font-size: 1.8rem;
+        }
     </style>
 </head>
 
 <body>
     <div id="container">
         <canvas></canvas>
+        <span id="span">100</span>
+    </div>
+    <div id="scorediv">
+        <span class="score" id="green"></span>
+        <span class="score" id="red"></span>
+        <span class="score" id="blue"></span>
+        <span class="score" id="yellow"></span>
     </div>
     <script src="./script.js"></script>
 </body>
