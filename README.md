@@ -48,4 +48,13 @@ player 4 :
 
 At the end the player with a longest snake is the WINNER
 
+Python :
+
 ![Screenshot 2024-05-03 045912](https://github.com/AlirezaSaadatmand/Mega_Snake_Game/assets/157215281/d9af29c0-c54e-48ec-8b4b-52c47fc82330)
+
+
+Javascript :
+
+
+![Screenshot 2024-06-05 060512](https://github.com/AlirezaSaadatmand/Mega_Snake_Game/assets/157215281/68de7499-a671-48f2-8221-9b4abf197564)
+
