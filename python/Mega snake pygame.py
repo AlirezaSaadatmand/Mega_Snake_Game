@@ -117,7 +117,6 @@ def touch():
 pygame.init()
 screen = pygame.display.set_mode( (WIDTH , HEIGHT) )
 screen.fill("#ede0c8")
-pygame.display.set_caption("Mega Snake")
 clock = pygame.time.Clock()
 
 begin_text = pygame.font.Font(None , 40)
@@ -138,6 +137,7 @@ counter = 0
 text = ""
 
 while True:
+    pygame.display.set_caption(f"FPS : {round(clock.get_fps())} Mega Snake")
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
